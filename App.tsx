@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -23,6 +24,16 @@ import CategoryItem from './screens/CategoryItem';
 import ProductDetail from './components/homeComponents/ProductDetail';
 import ShoppingCart from './screens/ShoppingCart';
 import Review from './screens/Review';
+import {TouchableOpacity} from 'react-native';
+import WriteReview from './components/reviewComponents/WriteReview';
+import AddAddress from './components/accountComponents/AddAddress';
+import ShippingMethod from './screens/ShippingMethod';
+import ShippingAddress from './screens/ShippingAddress';
+import PaymentMethod from './screens/PaymentMethod';
+import OrderSuccess from './screens/OrderSuccess';
+import AddCreditCard from './components/accountComponents/AddCreditCard';
+import TrackOrder from './screens/TrackOrder';
+import ApplyFilter from './screens/ApplyFilter';
 
 const TabApp = () => {
   const Tab = createBottomTabNavigator();
@@ -122,6 +133,16 @@ const App = () => {
           }}
         />
         <Stack.Screen
+          name="TrackOrder"
+          component={TrackOrder}
+          options={{
+            headerShown: true,
+            title: 'Track Order',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+          }}
+        />
+        <Stack.Screen
           name="MyFavorite"
           component={MyFavorite}
           options={{
@@ -134,22 +155,54 @@ const App = () => {
         <Stack.Screen
           name="MyAddress"
           component={MyAddress}
-          options={{
+          options={({navigation}) => ({
             headerShown: true,
             title: 'My Address',
             headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
             headerTitleAlign: 'center',
-          }}
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AddAddress')}>
+                <AntDesign name="pluscircleo" size={20} color="#000" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="AddAddress"
+          component={AddAddress}
+          options={() => ({
+            headerShown: true,
+            title: 'Add Address',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+          })}
         />
         <Stack.Screen
           name="CreditCard"
           component={CreditCard}
-          options={{
+          options={({navigation}) => ({
             headerShown: true,
-            title: 'Credit Cards',
+            title: 'My Cards',
             headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
             headerTitleAlign: 'center',
-          }}
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('AddCreditCard')}>
+                <AntDesign name="pluscircleo" size={20} color="#000" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="AddCreditCard"
+          component={AddCreditCard}
+          options={() => ({
+            headerShown: true,
+            title: 'Add Credit Card',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+          })}
         />
         <Stack.Screen
           name="Transaction"
@@ -189,14 +242,32 @@ const App = () => {
         <Stack.Screen
           name="Review"
           component={Review}
-          options={{
+          options={({navigation}) => ({
             headerShown: true,
             title: 'Reviews',
             headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
             headerTitleAlign: 'center',
             headerTitle: 'Reviews',
             headerTintColor: '#000',
-          }}
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate('WriteReview')}>
+                <AntDesign name="pluscircleo" size={20} color="#000" />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+
+        <Stack.Screen
+          name="WriteReview"
+          component={WriteReview}
+          options={() => ({
+            headerShown: true,
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+            headerTitle: 'Write Reviews',
+            headerTintColor: '#000',
+          })}
         />
 
         <Stack.Screen
@@ -225,6 +296,60 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Shopping Cart',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+          }}
+        />
+        {/* shipping and payment screens */}
+        <Stack.Screen
+          name="ShippingMethod"
+          component={ShippingMethod}
+          options={{
+            headerShown: true,
+            title: 'Shipping Method',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+          }}
+        />
+        <Stack.Screen
+          name="ShippingAddress"
+          component={ShippingAddress}
+          options={{
+            headerShown: true,
+            title: 'Shipping Address',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+            animation: 'none',
+          }}
+        />
+        <Stack.Screen
+          name="PaymentMethod"
+          component={PaymentMethod}
+          options={{
+            headerShown: true,
+            title: 'Payment Method',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+            animation: 'none',
+          }}
+        />
+        <Stack.Screen
+          name="OrderSuccess"
+          component={OrderSuccess}
+          options={{
+            headerShown: true,
+            title: 'Order Success',
+            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+            headerTitleAlign: 'center',
+          }}
+        />
+        {/* search & filter screens */}
+        <Stack.Screen
+          name="ApplyFilter"
+          component={ApplyFilter}
+          options={{
+            headerShown: true,
+            title: 'Apply Filters',
             headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
             headerTitleAlign: 'center',
           }}

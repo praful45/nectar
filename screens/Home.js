@@ -15,6 +15,8 @@ import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import CategoryCardDetail from '../components/homeComponents/CategoryCardDetail';
 import ProductCard from '../components/homeComponents/ProductCard';
+import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
+import {FilterIcon} from '../components/svgComponents/SvgComponent';
 
 const Home = () => {
   const navigation = useNavigation();
@@ -23,12 +25,19 @@ const Home = () => {
       <ScrollView style={styles.bg}>
         <View>
           <View style={styles.search}>
-            <IconFA name="search" style={styles.searchIcon} />
+            <IconFA name="search" style={styles.searchIcon} size={18} />
             <TextInput
               style={styles.greyTextColor}
               placeholder="Search Products"
               placeholderTextColor="#7c7c7c"
             />
+            <Pressable
+              onPress={() => navigation.navigate('ApplyFilter')}
+              style={({pressed}) => (pressed ? styles.press_background : null)}>
+              <View style={styles.filterIcon}>
+                <FilterIcon width={17} height={15} color="#868889" />
+              </View>
+            </Pressable>
           </View>
           <Image
             source={require('../assets/carousel.png')}
@@ -134,6 +143,7 @@ const styles = StyleSheet.create({
   },
   greyTextColor: {
     color: '#7c7c7c',
+    flex: 1,
   },
   blackTxtColor: {
     color: '#181725',
@@ -159,10 +169,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   searchIcon: {
-    height: 20,
-    width: 16,
-    color: '#181B19',
-    paddingTop: 4,
+    color: '#868889',
+    marginRight: 16,
+  },
+  filterIcon: {
+    color: 'red',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
   },
   press_background: {
     backgroundColor: '#d0f7d8',

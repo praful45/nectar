@@ -29,14 +29,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
     paddingVertical: 18,
-    marginTop: 13,
   },
   btn_txt: {
     color: '#fff',
     fontFamily: 'Poppins-Medium',
     fontSize: 15,
     flex: 1,
-    marginLeft: '37%',
+    textAlign: 'center',
   },
 });
 

@@ -34,7 +34,9 @@ const ShoppingCart = () => {
           <Text style={styles.checkout_info_total}>Total</Text>
           <Text style={styles.checkout_info_total_price}>$58.2</Text>
         </View>
-        <AppButton navigateTo="Cart" btnText="Checkout" />
+        <View style={styles.btn}>
+          <AppButton navigateTo="ShippingMethod" btnText="Checkout" />
+        </View>
       </View>
     </View>
   );
@@ -90,6 +92,9 @@ const styles = StyleSheet.create({
   },
   checkout_info_flex: {
     gap: 7,
+  },
+  btn: {
+    marginTop: 13,
   },
 });
 

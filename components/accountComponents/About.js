@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
     paddingBottom: 18,
     paddingLeft: 0,
     backgroundColor: '#fff',
+    borderRadius: 5,
   },
   icon: {
     paddingLeft: 18,
