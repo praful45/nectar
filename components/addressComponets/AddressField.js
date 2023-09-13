@@ -42,6 +42,7 @@ const AddressField = () => {
       <View style={styles.input_box}>
         <Feather style={styles.icon} name="phone" color={'#868889'} size={24} />
         <TextInput
+          keyboardType="number-pad"
           placeholder="Phone Number"
           placeholderTextColor="#868889"
           style={styles.input}

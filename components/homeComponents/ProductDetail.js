@@ -2,14 +2,15 @@ import React from 'react';
 import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontA6 from 'react-native-vector-icons/FontAwesome6';
-import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import AppButtonIcon from '../buttonComponents/AppButtonIcon';
 import {Rating} from 'react-native-ratings';
 
 const ProductDetail = () => {
   const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('ShoppingCart');
+  };
   return (
     <View style={styles.item_detail_main}>
       <View style={styles.item_detail_img_bg}>
@@ -19,7 +20,6 @@ const ProductDetail = () => {
             style={styles.item_detail_img}
           />
         </View>
-        {/* <Image source={require('../../assets/lime.png')} /> */}
       </View>
 
       <View style={styles.item_detail_info}>
@@ -74,21 +74,10 @@ const ProductDetail = () => {
           </View>
         </View>
         <AppButtonIcon
-          navigateTo="ShoppingCart"
+          onPress={handlePress}
           btnText="Add to Cart"
           iconName="shopping-outline"
         />
-        {/* <Pressable onPress={() => navigation.navigate('ShoppingCart')}>
-          <LinearGradient
-            start={{x: 0.0, y: 0.25}}
-            end={{x: 0.5, y: 1.0}}
-            locations={[0, 1]}
-            colors={['#AEDC81', '#6CC51D']}
-            style={styles.btn}>
-            <Text style={styles.btn_txt}>Add to Cart</Text>
-            <MaterialComIcon name="shopping-outline" size={24} color="#fff" />
-          </LinearGradient>
-        </Pressable> */}
       </View>
     </View>
   );

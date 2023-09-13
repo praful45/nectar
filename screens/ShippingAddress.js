@@ -3,8 +3,14 @@ import {View, StyleSheet} from 'react-native';
 import AppButton from '../components/buttonComponents/AppButton';
 import StepIndicatorCard from '../components/cards/StepIndicatorCard';
 import AddressField from '../components/addressComponets/AddressField';
+import {useNavigation} from '@react-navigation/native';
 
 const ShippingAddress = () => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('PaymentMethod');
+  };
+
   return (
     <View style={styles.shipping_address_wrapper}>
       <StepIndicatorCard pos={1} />
@@ -12,7 +18,7 @@ const ShippingAddress = () => {
         <AddressField />
       </View>
       <View style={styles.btn}>
-        <AppButton navigateTo="PaymentMethod" btnText="Next" />
+        <AppButton onPress={handlePress} btnText="Next" />
       </View>
     </View>
   );

@@ -87,6 +87,7 @@ const MyAddressFormCard = () => {
             size={18}
           />
           <TextInput
+            keyboardType="number-pad"
             placeholder="Phone Number"
             placeholderTextColor="#868889"
             style={styles.input}

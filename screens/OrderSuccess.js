@@ -2,8 +2,13 @@ import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import AppButton from '../components/buttonComponents/AppButton';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
 
 const OrderSuccess = () => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('TrackOrder');
+  };
   return (
     <View style={styles.order_success_wrapper}>
       <View style={styles.order_success_box}>
@@ -16,7 +21,7 @@ const OrderSuccess = () => {
         </Text>
       </View>
       <View style={styles.btn}>
-        <AppButton navigateTo="TrackOrder" btnText="Track Order" />
+        <AppButton onPress={handlePress} btnText="Track Order" />
       </View>
     </View>
   );

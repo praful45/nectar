@@ -4,9 +4,14 @@ import AppButton from '../components/buttonComponents/AppButton';
 import StepIndicatorCard from '../components/cards/StepIndicatorCard';
 import PaymentTypeCard from '../components/cards/PaymentTypeCard';
 import PaymentMethodForm from '../components/cards/PaymentMethodForm';
+import {useNavigation} from '@react-navigation/native';
 
 const PaymentMethod = () => {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('OrderSuccess');
+  };
 
   useEffect(() => {
     const openKeyboard = Keyboard.addListener('keyboardDidShow', () => {
@@ -46,7 +51,7 @@ const PaymentMethod = () => {
         </ScrollView>
       </View>
       <View style={styles.btn}>
-        <AppButton navigateTo="OrderSuccess" btnText="Make a Payment" />
+        <AppButton onPress={handlePress} btnText="Make a Payment" />
       </View>
     </View>
   );

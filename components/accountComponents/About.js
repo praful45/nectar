@@ -53,7 +53,7 @@ const About = () => {
         </View>
       </View>
       <View style={styles.about_password}>
-        <Text style={styles.about_section_title}>Personal Details</Text>
+        <Text style={styles.about_section_title}>Change Password</Text>
         <View style={styles.personal_input}>
           <View style={styles.input_box}>
             <Feather
@@ -76,7 +76,7 @@ const About = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="*********"
+              placeholder="Password"
               placeholderTextColor="#868889"
               style={styles.input}
             />

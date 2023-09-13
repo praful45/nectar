@@ -1,14 +1,17 @@
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {Pressable, StyleSheet, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const AppButtonIcon = ({navigateTo, btnText, iconName}) => {
-  const navigation = useNavigation();
+const AppButtonIcon = ({onPress, btnText, iconName, style, disabled}) => {
+  const handlePress = () => {
+    if (!disabled) {
+      onPress();
+    }
+  };
   return (
     <>
-      <Pressable onPress={() => navigation.navigate(navigateTo)}>
+      <Pressable onPress={handlePress}>
         <LinearGradient
           start={{x: 0.0, y: 0.25}}
           end={{x: 0.5, y: 1.0}}

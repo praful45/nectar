@@ -2,8 +2,13 @@ import React from 'react';
 import PaymentMethodForm from '../cards/PaymentMethodForm';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import AppButton from '../buttonComponents/AppButton';
+import {useNavigation} from '@react-navigation/native';
 
 const AddCreditCard = () => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('OrderSuccess');
+  };
   return (
     <View style={styles.main_wrapper}>
       <View>
@@ -18,7 +23,7 @@ const AddCreditCard = () => {
         </ScrollView>
       </View>
       <View style={styles.btn}>
-        <AppButton navigateTo="OrderSuccess" btnText="Add Credit Card" />
+        <AppButton onPress={handlePress} btnText="Add Credit Card" />
       </View>
     </View>
   );

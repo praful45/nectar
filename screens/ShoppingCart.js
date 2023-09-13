@@ -3,8 +3,13 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import FavoriteCard from '../components/FavoriteComponents/FavoriteCard';
 import {Text} from 'react-native';
 import AppButton from '../components/buttonComponents/AppButton';
+import {useNavigation} from '@react-navigation/native';
 
 const ShoppingCart = () => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('ShippingMethod');
+  };
   return (
     <View>
       <View style={styles.shoppingcart_main_view}>
@@ -35,7 +40,7 @@ const ShoppingCart = () => {
           <Text style={styles.checkout_info_total_price}>$58.2</Text>
         </View>
         <View style={styles.btn}>
-          <AppButton navigateTo="ShippingMethod" btnText="Checkout" />
+          <AppButton onPress={handlePress} btnText="Checkout" />
         </View>
       </View>
     </View>

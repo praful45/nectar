@@ -2,8 +2,13 @@ import React from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
 import AppButton from '../buttonComponents/AppButton';
 import {Rating} from 'react-native-ratings';
+import {useNavigation} from '@react-navigation/native';
 
 const WriteReview = () => {
+  const navigation = useNavigation();
+  const handlePress = () => {
+    navigation.navigate('Home');
+  };
   return (
     <View style={styles.write_review_wrapper}>
       <Text style={styles.write_review_question}>What do you think?</Text>
@@ -29,7 +34,7 @@ const WriteReview = () => {
         multiline={true}
       />
       <View style={styles.btn}>
-        <AppButton btnText="Start Shopping" navigateTo="Home" />
+        <AppButton btnText="Start Shopping" onPress={handlePress} />
       </View>
     </View>
   );

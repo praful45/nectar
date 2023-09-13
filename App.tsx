@@ -34,6 +34,12 @@ import OrderSuccess from './screens/OrderSuccess';
 import AddCreditCard from './components/accountComponents/AddCreditCard';
 import TrackOrder from './screens/TrackOrder';
 import ApplyFilter from './screens/ApplyFilter';
+import AuthOption from './screens/AuthScreens/AuthOption';
+import AuthLogin from './screens/AuthScreens/AuthLogin';
+import AuthSignUp from './screens/AuthScreens/AuthSignUp';
+import ForgotPassword from './screens/AuthScreens/ForgotPassword';
+import EnterNumber from './screens/AuthScreens/EnterNumber';
+import VerifyNumber from './screens/AuthScreens/VerifyNumber';
 
 const TabApp = () => {
   const Tab = createBottomTabNavigator();
@@ -108,8 +114,44 @@ const App = () => {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
+          headerTitleAlign: 'center',
+        }}>
         <Stack.Screen name="Onboard" component={Onboarding} />
+        {/* Auth Screens */}
+        <Stack.Screen name="AuthOption" component={AuthOption} />
+        <Stack.Screen name="AuthLogin" component={AuthLogin} />
+        <Stack.Screen name="AuthSignUp" component={AuthSignUp} />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{
+            headerShown: true,
+            title: 'Passwrod Recovery',
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
+          name="EnterNumber"
+          component={EnterNumber}
+          options={{
+            headerShown: true,
+            title: 'Enter Number',
+            headerTransparent: true,
+          }}
+        />
+        <Stack.Screen
+          name="VerifyNumber"
+          component={VerifyNumber}
+          options={{
+            headerShown: true,
+            title: 'Verify Number',
+            headerTransparent: true,
+          }}
+        />
         <Stack.Screen name="TabApp" component={TabApp} />
         {/* Account Screens */}
         <Stack.Screen
@@ -118,8 +160,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'About Me',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -128,8 +168,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'My Orders',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -138,8 +176,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Track Order',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -148,8 +184,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Favorites',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -158,8 +192,7 @@ const App = () => {
           options={({navigation}) => ({
             headerShown: true,
             title: 'My Address',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
+
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => navigation.navigate('AddAddress')}>
@@ -174,8 +207,6 @@ const App = () => {
           options={() => ({
             headerShown: true,
             title: 'Add Address',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           })}
         />
         <Stack.Screen
@@ -184,8 +215,7 @@ const App = () => {
           options={({navigation}) => ({
             headerShown: true,
             title: 'My Cards',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
+
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => navigation.navigate('AddCreditCard')}>
@@ -200,8 +230,6 @@ const App = () => {
           options={() => ({
             headerShown: true,
             title: 'Add Credit Card',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           })}
         />
         <Stack.Screen
@@ -210,8 +238,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Transactions',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -220,8 +246,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Notifications',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         {/* Product Related Screens */}
@@ -231,8 +255,7 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Detail',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
+
             headerTransparent: true,
             headerTitle: '',
             headerTintColor: '#000',
@@ -245,8 +268,7 @@ const App = () => {
           options={({navigation}) => ({
             headerShown: true,
             title: 'Reviews',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
+
             headerTitle: 'Reviews',
             headerTintColor: '#000',
             headerRight: () => (
@@ -263,8 +285,7 @@ const App = () => {
           component={WriteReview}
           options={() => ({
             headerShown: true,
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
+
             headerTitle: 'Write Reviews',
             headerTintColor: '#000',
           })}
@@ -276,8 +297,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Categories',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -286,8 +305,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'CategoryItems',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -296,8 +313,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Shopping Cart',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         {/* shipping and payment screens */}
@@ -307,8 +322,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Shipping Method',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         <Stack.Screen
@@ -317,8 +330,7 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Shipping Address',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
+
             animation: 'none',
           }}
         />
@@ -328,8 +340,7 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Payment Method',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
+
             animation: 'none',
           }}
         />
@@ -339,8 +350,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Order Success',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
         {/* search & filter screens */}
@@ -350,8 +359,6 @@ const App = () => {
           options={{
             headerShown: true,
             title: 'Apply Filters',
-            headerTitleStyle: {fontFamily: 'Poppins-Medium', fontSize: 18},
-            headerTitleAlign: 'center',
           }}
         />
       </Stack.Navigator>
