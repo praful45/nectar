@@ -3,6 +3,7 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import CreditCardFormCard from './CreditCardFormCard';
+import {master_card} from '../images';
 
 const CreditCardCard = () => {
   const [collapse, setCollapse] = useState(true);
@@ -14,7 +15,7 @@ const CreditCardCard = () => {
           !collapse && styles.credit_card_card_divider,
         ]}>
         <View style={styles.credit_card_card_icon}>
-          <Image source={require('../../assets/master_card.png')} />
+          <Image source={master_card} />
         </View>
         <View style={styles.credit_card_card_info}>
           <Text style={styles.credit_card_card_name}>Russell Austin</Text>

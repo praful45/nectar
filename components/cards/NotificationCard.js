@@ -32,7 +32,6 @@ const NotificationCard = ({title, description}) => {
 const styles = StyleSheet.create({
   notification_card_wrapper: {
     backgroundColor: '#fff',
-    // borderWidth: 1,
     flexDirection: 'row',
     paddingVertical: 19,
     paddingHorizontal: 17,
@@ -40,9 +39,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   notification_card_setting: {
-    // width: '80%',
-    // flexBasis: 273,
-    // borderWidth: 1,
     flex: 1,
   },
   notification_card_setting_title: {
@@ -57,7 +53,6 @@ const styles = StyleSheet.create({
   },
   notification_card_toogle: {
     color: '#000',
-    // borderWidth: 1,
   },
 });
 

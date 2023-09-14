@@ -5,7 +5,9 @@ import OrderCard from '../cards/OrderCard';
 const MyOrder = () => {
   return (
     <View style={styles.credit_card_wrapper}>
-      <ScrollView contentContainerStyle={styles.credit_card_scrollview}>
+      <ScrollView
+        contentContainerStyle={styles.credit_card_scrollview}
+        showsVerticalScrollIndicator={false}>
         <OrderCard />
         <OrderCard />
         <OrderCard />

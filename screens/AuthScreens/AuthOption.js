@@ -4,13 +4,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import {GoogleLogo} from '../../components/svgComponents/SvgComponent';
 import {useNavigation} from '@react-navigation/native';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {auth_option_img} from '../../components/images';
 
 const AuthOption = () => {
   const navigation = useNavigation();
+
   return (
-    <ImageBackground
-      source={require('../../assets/auth-option-img.png')}
-      style={styles.bgImg}>
+    <ImageBackground source={auth_option_img} style={styles.bgImg}>
       <View style={styles.container}>
         <Text style={styles.welcomet_txt}>Welcome</Text>
         <Text style={styles.description}>

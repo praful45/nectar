@@ -6,12 +6,16 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  Alert,
 } from 'react-native';
 import React, {useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import AppButton from '../../components/buttonComponents/AppButton';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
+import {authentication} from '../../FirebaseConfig';
+import {createUserWithEmailAndPassword, signOut} from 'firebase/auth';
+import {auth_signup} from '../../components/images';
 
 const AuthSignUp = () => {
   const navigation = useNavigation();
@@ -46,10 +50,31 @@ const AuthSignUp = () => {
     if (!password) {
       setPasswordError('Password is required');
       return;
+    } else if (password.length < 6) {
+      setPasswordError('Password Length should be at least 6.');
+      return;
     }
 
     if (!emailError && !phoneNumberError && !passwordError) {
-      navigation.navigate('EnterNumber');
+      createUserWithEmailAndPassword(authentication, email, password)
+        .then(() => {
+          // Alert.alert('Success', 'User account created successfully!');
+          signOut(authentication).then(() =>
+            navigation.navigate('EnterNumber'),
+          );
+        })
+        .catch(error => {
+          if (error.code === 'auth/email-already-in-use') {
+            Alert.alert(
+              'Duplicate Email',
+              'That email address is already in use!',
+            );
+          }
+
+          if (error.code === 'auth/invalid-email') {
+            Alert.alert('That email address is invalid!');
+          }
+        });
     }
   };
 
@@ -58,9 +83,7 @@ const AuthSignUp = () => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../assets/auth-signup.png')}
-      style={styles.bgImg}>
+    <ImageBackground source={auth_signup} style={styles.bgImg}>
       <View style={styles.container}>
         <Text style={styles.welcomet_txt}>Create account</Text>
         <Text style={styles.description}>Quickly create account</Text>

@@ -1,43 +1,91 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import FavoriteCard from '../components/FavoriteComponents/FavoriteCard';
 import {Text} from 'react-native';
 import AppButton from '../components/buttonComponents/AppButton';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  FlatList,
+  GestureHandlerRootView,
+  Swipeable,
+} from 'react-native-gesture-handler';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {deleteFromCart, getTotalPrice} from '../components/slices/appSlice';
 
 const ShoppingCart = () => {
   const navigation = useNavigation();
+  const carts = useSelector(state => state.appItems.carts);
+  const dispatch = useDispatch();
+
+  const subTotal = useSelector(getTotalPrice);
+  const shippingCharges = subTotal === 0 ? 0 : 1.6;
+  const total = (subTotal + shippingCharges).toFixed(2);
+
   const handlePress = () => {
+    // eslint-disable-next-line eqeqeq
+    if (total == 0) {
+      return;
+    }
     navigation.navigate('ShippingMethod');
   };
+
+  const renderItem = ({item}) => {
+    return (
+      <Swipeable renderRightActions={() => rightSwipe(item)}>
+        <FavoriteCard data={item} />
+      </Swipeable>
+    );
+  };
+
+  const handleDelete = id => {
+    dispatch(deleteFromCart(id));
+  };
+
+  const rightSwipe = item => {
+    return (
+      <TouchableOpacity
+        style={styles.right_swipe}
+        activeOpacity={0.7}
+        onPress={() => handleDelete(item.id)}>
+        <View>
+          <AntDesign name="delete" color="#fff" size={38} />
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View>
       <View style={styles.shoppingcart_main_view}>
-        <ScrollView contentContainerStyle={styles.shoppingcart_scroll_view}>
-          <FavoriteCard />
-          <FavoriteCard />
-          <FavoriteCard />
-          <FavoriteCard />
-          <FavoriteCard />
-          <FavoriteCard />
-          <FavoriteCard />
-          <FavoriteCard />
-        </ScrollView>
+        <GestureHandlerRootView>
+          <View>
+            <FlatList
+              data={carts}
+              renderItem={renderItem}
+              keyExtractor={item => item.id}
+              contentContainerStyle={styles.shoppingcart_list_view}
+              showsVerticalScrollIndicator={false}
+            />
+          </View>
+        </GestureHandlerRootView>
       </View>
       <View style={styles.checkout_view}>
         <View style={styles.checkout_info_flex}>
           <View style={styles.checkout_info}>
             <Text style={styles.checkout_info_text1}>SubTotal</Text>
-            <Text style={styles.checkout_info_text2}>$56.7</Text>
+            <Text style={styles.checkout_info_text2}>
+              ${subTotal.toFixed(2)}
+            </Text>
           </View>
           <View style={styles.checkout_info}>
             <Text style={styles.checkout_info_text1}>Shipping Charges</Text>
-            <Text style={styles.checkout_info_text2}>$1.6</Text>
+            <Text style={styles.checkout_info_text2}>${shippingCharges}</Text>
           </View>
         </View>
         <View style={[styles.checkout_info, styles.checkout_info_total_view]}>
           <Text style={styles.checkout_info_total}>Total</Text>
-          <Text style={styles.checkout_info_total_price}>$58.2</Text>
+          <Text style={styles.checkout_info_total_price}>${total}</Text>
         </View>
         <View style={styles.btn}>
           <AppButton onPress={handlePress} btnText="Checkout" />
@@ -52,7 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F4F5F9',
     height: '67%',
   },
-  shoppingcart_scroll_view: {
+  shoppingcart_list_view: {
     paddingHorizontal: 17,
     paddingVertical: 25,
     gap: 10,
@@ -100,6 +148,12 @@ const styles = StyleSheet.create({
   },
   btn: {
     marginTop: 13,
+  },
+  right_swipe: {
+    backgroundColor: '#ff4a4a',
+    width: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

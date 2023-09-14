@@ -1,28 +1,35 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
-import Icon from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch} from 'react-redux';
+import {addToCart} from '../slices/appSlice';
 
-const ProductCard = () => {
+const ProductCard = ({item}) => {
+  const {name, price, quantity, photo} = item;
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const handlePress = () => {
+    dispatch(addToCart({name, price, quantity}));
+  };
   return (
     <View style={styles.card}>
       <Pressable
-        onPress={() => navigation.navigate('ProductDetail')}
-        // onPress={() => navigation.navigate('Categories')}
+        onPress={() =>
+          navigation.navigate('ProductDetail', {
+            productData: item,
+          })
+        }
         style={({pressed}) => [pressed && styles.press_background]}>
         <View style={styles.product_content}>
-          <Image
-            source={require('../../assets/apple.png')}
-            style={styles.img}
-          />
-          <Text style={styles.price}>$4.99</Text>
-          <Text style={styles.title}>Red Apple</Text>
-          <Text style={styles.pcs}>1.50lbs</Text>
+          <Image source={{uri: photo}} style={styles.img} />
+          <Text style={styles.price}>${item.price}</Text>
+          <Text style={styles.title}>{item.name}</Text>
+          <Text style={styles.pcs}>{item.quantity}</Text>
         </View>
       </Pressable>
       <Pressable
+        onPress={handlePress}
         style={({pressed}) => [
           styles.cardBottom,
           pressed && styles.press_background,
@@ -41,14 +48,14 @@ const ProductCard = () => {
 
 const styles = StyleSheet.create({
   card: {
-    // borderWidth: 1,
     paddingTop: 16,
     borderRadius: 5,
-    width: 170,
+    width: 165,
     height: 230,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    margin: 3,
   },
   press_background: {
     backgroundColor: '#d0f7d8',
@@ -61,16 +68,14 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   img: {
-    marginTop: 20,
-    marginBottom: 8,
-    // borderWidth: 1,
-    borderColor: 'red',
+    width: 150,
+    height: 100,
+    resizeMode: 'contain',
   },
   title: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 15,
     color: '#000',
-    // borderWidth: 1,
   },
   addBtn: {
     color: '#53B175',
@@ -92,12 +97,10 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     fontSize: 12,
     color: '#6CC51D',
-    // borderWidth: 1,
   },
   product_content: {
     display: 'flex',
     alignItems: 'center',
-    // borderWidth: 1,
   },
   add_to_cart_text: {
     fontFamily: 'Poppins-Medium',
@@ -105,9 +108,7 @@ const styles = StyleSheet.create({
     color: '#010101',
     marginTop: 2.5,
   },
-  cart_icon: {
-    // borderWidth: 1,
-  },
+  cart_icon: {},
 });
 
 export default ProductCard;

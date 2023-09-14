@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import gStyles from '../components/globalStyles/globalStyles';
 import {Image} from 'react-native';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -8,23 +8,41 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import {signOut} from 'firebase/auth';
+import {authentication} from '../FirebaseConfig';
+import {useAuth} from '../hooks/useAuth';
+import {profile} from '../components/images';
 
 const Account = () => {
   const navigation = useNavigation();
+  const {user} = useAuth();
+
+  const handleSignOut = () => {
+    Alert.alert('Sure?', 'Are you sure to signout', [
+      {
+        text: 'Yes',
+        onPress: () => signOut(authentication),
+      },
+      {
+        text: 'No',
+        style: 'cancel',
+      },
+    ]);
+  };
   return (
     <View style={[gStyles.background, styles.back]}>
       <View style={styles.top_section}>
         <View style={styles.profile_info}>
           <Image
-            source={require('../assets/profile.png')}
+            source={profile}
             style={styles.profile}
             width={20}
             height={20}
           />
-          <Text style={[gStyles.textColor, styles.name]}>Olivia Austin</Text>
-          <Text style={(gStyles.textColor, styles.email)}>
-            oliviaaustin@gmail.com
+          <Text style={[gStyles.textColor, styles.name]}>
+            {user?.displayName || 'Olivia Justin'}
           </Text>
+          <Text style={(gStyles.textColor, styles.email)}>{user?.email}</Text>
         </View>
       </View>
 
@@ -96,11 +114,15 @@ const Account = () => {
             <MaterialComIcon name="greater-than" color={'#868889'} size={18} />
           </View>
         </Pressable>
-        <View style={styles.misc_bar}>
-          <AntDesign name="logout" color={'#28B446'} size={18} />
-          <Text style={styles.misc_text}>Sign out</Text>
-          <MaterialComIcon name="greater-than" color={'#868889'} size={18} />
-        </View>
+        <Pressable
+          onPress={handleSignOut}
+          style={({pressed}) => (pressed ? styles.press_background : null)}>
+          <View style={styles.misc_bar}>
+            <AntDesign name="logout" color={'#28B446'} size={18} />
+            <Text style={styles.misc_text}>Sign out</Text>
+            <MaterialComIcon name="greater-than" color={'#868889'} size={18} />
+          </View>
+        </Pressable>
       </View>
     </View>
   );

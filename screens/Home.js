@@ -1,55 +1,90 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   Text,
   View,
-  Image,
   StyleSheet,
-  TextInput,
   Pressable,
+  FlatList,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 import IconFA from 'react-native-vector-icons/FontAwesome';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import CategoryCardDetail from '../components/homeComponents/CategoryCardDetail';
 import ProductCard from '../components/homeComponents/ProductCard';
-import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
 import {FilterIcon} from '../components/svgComponents/SvgComponent';
+import axios from 'axios';
+import Loading from '../components/Loading/Loading';
+import BannerSlider from '../components/homeComponents/BannerSlider';
 
 const Home = () => {
   const navigation = useNavigation();
+  const [appData, setAppData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    axios
+      .get('https://praful45.github.io/jsonapi/data.json')
+      .then(function (response) {
+        setAppData(response.data);
+        setIsLoading(false);
+      })
+      .catch(function (error) {
+        console.log(error.message);
+      });
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={styles.activity_indicator}>
+        <Loading />
+      </View>
+    );
+  }
+
+  const renderCategory = ({item}) => {
+    return <CategoryCardDetail item={item} />;
+  };
+
   return (
     <SafeAreaView>
-      <ScrollView style={styles.bg}>
+      <ScrollView
+        style={styles.bg}
+        nestedScrollEnabled
+        showsVerticalScrollIndicator={false}>
         <View>
-          <View style={styles.search}>
-            <IconFA name="search" style={styles.searchIcon} size={18} />
-            <TextInput
-              style={styles.greyTextColor}
-              placeholder="Search Products"
-              placeholderTextColor="#7c7c7c"
-            />
-            <Pressable
-              onPress={() => navigation.navigate('ApplyFilter')}
-              style={({pressed}) => (pressed ? styles.press_background : null)}>
+          <Pressable
+            onPress={() =>
+              navigation.navigate('Search', {
+                searchData: appData,
+              })
+            }>
+            <View style={styles.search}>
+              <IconFA name="search" style={styles.searchIcon} size={18} />
+              <Text style={styles.greyTextColor} placeholderTextColor="#7c7c7c">
+                Search Products
+              </Text>
+
               <View style={styles.filterIcon}>
                 <FilterIcon width={17} height={15} color="#868889" />
               </View>
-            </Pressable>
+            </View>
+          </Pressable>
+          <View>
+            <BannerSlider />
           </View>
-          <Image
-            source={require('../assets/carousel.png')}
-            style={styles.carousel}
-          />
         </View>
         {/*Categories Section */}
         <View style={styles.lists}>
           <View style={styles.listTopSection}>
             <Text style={styles.listTopFirst}>Categories</Text>
             <Pressable
-              onPress={() => navigation.navigate('Categories')}
+              onPress={() =>
+                navigation.navigate('Categories', {
+                  categoryData: appData.categories,
+                })
+              }
               style={({pressed}) => (pressed ? styles.press_background : null)}>
               <MaterialComIcon
                 name="greater-than"
@@ -58,19 +93,15 @@ const Home = () => {
               />
             </Pressable>
           </View>
-          <ScrollView
-            horizontal={true}
-            contentContainerStyle={styles.home_category}>
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-            <CategoryCardDetail />
-          </ScrollView>
+          <FlatList
+            horizontal
+            data={appData.categories}
+            renderItem={renderCategory}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.home_category}
+            nestedScrollEnabled
+            showsHorizontalScrollIndicator={false}
+          />
         </View>
         {/* Featured Products Section */}
         <View style={styles.lists}>
@@ -79,7 +110,11 @@ const Home = () => {
               Featured Products
             </Text>
             <Pressable
-              onPress={() => navigation.navigate('Categories')}
+              onPress={() =>
+                navigation.navigate('ProductList', {
+                  productData: appData.products,
+                })
+              }
               style={({pressed}) => (pressed ? styles.press_background : null)}>
               <MaterialComIcon
                 name="greater-than"
@@ -88,14 +123,12 @@ const Home = () => {
               />
             </Pressable>
           </View>
-          <ScrollView contentContainerStyle={styles.product_list}>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-          </ScrollView>
+
+          <View style={styles.column}>
+            {appData.products.map(item => (
+              <ProductCard key={item.id} item={item} />
+            ))}
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -115,7 +148,8 @@ const styles = StyleSheet.create({
     paddingTop: 14,
   },
   lists: {
-    marginBottom: 30,
+    marginBottom: 15,
+    marginTop: 15,
   },
   carousel: {
     marginBottom: 20,
@@ -185,13 +219,15 @@ const styles = StyleSheet.create({
     display: 'flex',
     gap: 20,
   },
-  product_list: {
-    display: 'flex',
+  column: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 18,
+    gap: 10,
+  },
+  activity_indicator: {
+    flex: 1,
   },
 });
 

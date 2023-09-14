@@ -3,6 +3,7 @@ import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MyAddressFormCard from './MyAddressFormCard';
+import {my_address} from '../images';
 
 const MyAddressCard = () => {
   const [collapse, setCollapse] = useState(true);
@@ -14,7 +15,7 @@ const MyAddressCard = () => {
           !collapse && styles.my_address_card_divider,
         ]}>
         <View style={styles.my_address_card_home_icon}>
-          <Image source={require('../../assets/my_address.png')} />
+          <Image source={my_address} />
         </View>
         <View style={styles.my_address_card_info}>
           <Text style={styles.my_address_card_name}>Russell Austin</Text>

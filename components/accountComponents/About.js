@@ -4,8 +4,10 @@ import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
+import {useAuth} from '../../hooks/useAuth';
 
 const About = () => {
+  const {user} = useAuth();
   return (
     <View style={styles.about_main}>
       <View style={styles.about_personal_details}>
@@ -19,9 +21,10 @@ const About = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="Russell Austin"
+              placeholder="Name"
               placeholderTextColor="#868889"
               style={styles.input}
+              value={user?.name}
             />
           </View>
           <View style={styles.input_box}>
@@ -32,9 +35,10 @@ const About = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="russell.partner@gmail.com"
+              placeholder="email"
               placeholderTextColor="#868889"
               style={styles.input}
+              value={user?.email}
             />
           </View>
           <View style={styles.input_box}>
@@ -45,9 +49,10 @@ const About = () => {
               style={styles.icon}
             />
             <TextInput
-              placeholder="+977 9878545588"
+              placeholder="phone Number"
               placeholderTextColor="#868889"
               style={styles.input}
+              value={user?.phoneNumber}
             />
           </View>
         </View>
@@ -180,7 +185,6 @@ const styles = StyleSheet.create({
     marginLeft: '37%',
   },
   about_btn: {
-    // borderWidth: 1,
     height: 120,
     justifyContent: 'flex-end',
   },

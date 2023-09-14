@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Rating} from 'react-native-ratings';
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
@@ -9,6 +9,8 @@ import {
 } from '../components/svgComponents/SvgComponent';
 
 const ApplyFilter = () => {
+  const [rating, setRating] = useState(4);
+
   return (
     <View style={styles.apply_filter_wrapper}>
       <View style={styles.section_wrapper}>
@@ -29,7 +31,7 @@ const ApplyFilter = () => {
             ratingCount={5}
             fractions={1}
             jumpValue={0.5}
-            startingValue={4}
+            startingValue={rating}
             imageSize={15}
             type="custom"
             ratingBackgroundColor="#fff"
@@ -37,7 +39,7 @@ const ApplyFilter = () => {
             tintColor="#F4F5F9"
             style={styles.rating_star}
           />
-          <Text style={styles.box_text}>4 Stars</Text>
+          <Text style={styles.box_text}>{rating} Stars</Text>
         </View>
       </View>
       <View style={[styles.section_wrapper, styles.no_border_bottom]}>

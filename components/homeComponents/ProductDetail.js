@@ -1,48 +1,93 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, Image, StyleSheet, Pressable, Alert} from 'react-native';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import FontA6 from 'react-native-vector-icons/FontAwesome6';
 import {useNavigation} from '@react-navigation/native';
 import AppButtonIcon from '../buttonComponents/AppButtonIcon';
 import {Rating} from 'react-native-ratings';
+import {useDispatch, useSelector} from 'react-redux';
+import {addToCart, addToFavorite} from '../slices/appSlice';
 
-const ProductDetail = () => {
+const ProductDetail = ({route}) => {
+  const {
+    name,
+    price,
+    quantity,
+    stars_rating,
+    description,
+    review_number,
+    photo,
+  } = route.params.productData;
   const navigation = useNavigation();
+
+  const carts = useSelector(state => state.appItems.carts);
+  const dispatch = useDispatch();
+
+  const [selectQty, setSelectQty] = useState(1);
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  //increase decrease quantity
+  const handleIncrease = () => {
+    setSelectQty(prev => prev + 1);
+  };
+  const handleDecrease = () => {
+    if (selectQty === 1) {
+      return;
+    } else {
+      setSelectQty(prev => prev - 1);
+    }
+  };
+  const handleFavorite = () => {
+    if (!isFavorite) {
+      dispatch(addToFavorite({name, price, quantity, selectQty}));
+    }
+    setIsFavorite(prev => !prev);
+  };
+
   const handlePress = () => {
-    navigation.navigate('ShoppingCart');
+    dispatch(addToCart({name, price, quantity, selectQty}));
+    Alert.alert('Success', 'Successfully added to cart!');
   };
   return (
     <View style={styles.item_detail_main}>
       <View style={styles.item_detail_img_bg}>
         <View>
-          <Image
-            source={require('../../assets/lime.png')}
-            style={styles.item_detail_img}
-          />
+          <Image source={{uri: photo}} style={styles.item_detail_img} />
         </View>
       </View>
 
       <View style={styles.item_detail_info}>
         <View style={styles.item_detail_price_love}>
-          <Text style={styles.item_detail_price}>$2.22</Text>
-          <MaterialIcon
-            name="favorite-border"
-            size={24}
-            color="#868889"
-            marginRight={5}
-          />
+          <Text style={styles.item_detail_price}>${price}</Text>
+          <Pressable onPress={handleFavorite}>
+            {isFavorite ? (
+              <MaterialIcon
+                name="favorite"
+                size={24}
+                color="red"
+                marginRight={5}
+              />
+            ) : (
+              <MaterialIcon
+                name="favorite-border"
+                size={24}
+                color="#868889"
+                marginRight={5}
+              />
+            )}
+          </Pressable>
         </View>
-        <Text style={styles.item_detail_title}>Organic Lemons</Text>
-        <Text style={styles.item_detail_quantity}>1.50lbs</Text>
+        <Text style={styles.item_detail_title}>{name}</Text>
+        <Text style={styles.item_detail_quantity}>{quantity}</Text>
         <Pressable
           onPress={() => navigation.navigate('Review')}
           style={styles.item_detail_rating_section}>
-          <Text style={styles.item_detail_rating_point}>4.5</Text>
+          <Text style={styles.item_detail_rating_point}>{stars_rating}</Text>
           <Rating
             ratingCount={5}
             fractions={1}
             jumpValue={0.5}
-            startingValue={4.5}
+            startingValue={stars_rating}
             imageSize={14}
             type="custom"
             ratingBackgroundColor="#868889"
@@ -51,33 +96,32 @@ const ProductDetail = () => {
             readonly
           />
           {/* <Text>Star</Text> */}
-          <Text style={styles.item_detail_rating_reviews}>(89 reviews)</Text>
+          <Text style={styles.item_detail_rating_reviews}>
+            ({review_number} reviews)
+          </Text>
         </Pressable>
-        <Text style={styles.item_detail_description}>
-          Organic Mountain works as a seller for many organic growers of organic
-          lemons. Organic lemons are easy to spot in your produce aisle. They
-          are just like regular lemons, but they will usually have a few more
-          scars on the outside of the lemon skin. Organic lemons are considered
-          to be the world's finest lemon for juicing <Text>More...</Text>
-        </Text>
-
-        <View style={styles.item_detail_quantity_section}>
-          <Text style={styles.item_detail_quantity_txt}>Quantity</Text>
-          <View style={styles.item_detail_quantity_incr_decr_display}>
-            <Pressable>
-              <FontA6 name="minus" color="#6CC51D" size={16} />
-            </Pressable>
-            <Text style={styles.favorite_card_incr_decr_txt}>5</Text>
-            <Pressable>
-              <FontA6 name="plus" color="#6CC51D" size={16} />
-            </Pressable>
+        <Text style={styles.item_detail_description}>{description}</Text>
+        <View style={styles.btn_bottom}>
+          <View style={styles.item_detail_quantity_section}>
+            <Text style={styles.item_detail_quantity_txt}>Quantity</Text>
+            <View style={styles.item_detail_quantity_incr_decr_display}>
+              <Pressable onPress={handleDecrease} style={styles.incr_decr}>
+                <FontA6 name="minus" color="#6CC51D" size={16} />
+              </Pressable>
+              <Text style={styles.favorite_card_incr_decr_txt}>
+                {selectQty}
+              </Text>
+              <Pressable onPress={handleIncrease} style={styles.incr_decr}>
+                <FontA6 name="plus" color="#6CC51D" size={16} />
+              </Pressable>
+            </View>
           </View>
+          <AppButtonIcon
+            onPress={handlePress}
+            btnText="Add to Cart"
+            iconName="shopping-outline"
+          />
         </View>
-        <AppButtonIcon
-          onPress={handlePress}
-          btnText="Add to Cart"
-          iconName="shopping-outline"
-        />
       </View>
     </View>
   );
@@ -97,7 +141,10 @@ const styles = StyleSheet.create({
     transform: [{translateY: -10}],
   },
   item_detail_img: {
-    // opacity: 0,
+    width: 350,
+    height: 350,
+    resizeMode: 'contain',
+    borderColor: 'black',
   },
   item_detail_info: {
     backgroundColor: '#F4F5F9',
@@ -154,7 +201,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 5,
-    paddingHorizontal: 17,
+    paddingLeft: 17,
     marginTop: 8,
   },
   item_detail_quantity_txt: {
@@ -177,7 +224,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 18,
+    gap: 0,
   },
   btn: {
     backgroundColor: '#AEDC81',
@@ -200,6 +247,16 @@ const styles = StyleSheet.create({
   btn_flex: {
     display: 'flex',
     flexDirection: 'row',
+  },
+  btn_bottom: {
+    position: 'absolute',
+    width: '100%',
+    alignSelf: 'center',
+    marginTop: 250,
+  },
+  incr_decr: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
   },
 });
 export default ProductDetail;

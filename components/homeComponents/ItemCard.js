@@ -2,16 +2,16 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, StyleSheet, Image, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import {apple} from '../images';
 
 const ItemCard = () => {
   const navigation = useNavigation();
   return (
     <Pressable
       onPress={() => navigation.navigate('ProductDetail')}
-      // onPress={() => navigation.navigate('Categories')}
       style={({pressed}) => [styles.card, pressed && styles.press_background]}>
       <View>
-        <Image source={require('../../assets/apple.png')} style={styles.img} />
+        <Image source={apple} style={styles.img} />
         <Text style={styles.title}>Red Apple</Text>
         <Text style={styles.pcs}>7pcs, Priceg</Text>
         <View style={styles.cardBottom}>

@@ -2,19 +2,18 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
 
-const CategoryCardDetail = () => {
+const CategoryCardDetail = ({item}) => {
   const navigation = useNavigation();
   return (
     <Pressable
-      onPress={() => navigation.navigate('CategoryItems')}
+      onPress={() =>
+        navigation.navigate('CategoryItems', {selectedCategory: item})
+      }
       style={() => [styles.category_card_detail]}>
       <View style={styles.category_card_img_bg}>
-        <Image
-          source={require('../../assets/apple_category.png')}
-          style={styles.category_card_img}
-        />
+        <Image source={{uri: item.image}} style={styles.category_card_img} />
       </View>
-      <Text style={styles.category_card_txt}>Fruits</Text>
+      <Text style={styles.category_card_txt}>{item.name}</Text>
     </Pressable>
   );
 };
@@ -22,7 +21,6 @@ const CategoryCardDetail = () => {
 const styles = StyleSheet.create({
   category_card_detail: {
     display: 'flex',
-    // borderWidth: 1,
     alignItems: 'center',
   },
   category_card_img_bg: {
@@ -34,8 +32,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   category_card_img: {
+    height: 50,
+    width: 50,
     resizeMode: 'cover',
-    // borderWidth: 1,
   },
   category_card_txt: {
     color: '#868889',

@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
+import {master_card} from '../images';
 
 const TransactionCard = () => {
   return (
     <View style={styles.transaction_card_main}>
       <View style={styles.transaction_card_img_view}>
-        <Image source={require('../../assets/master_card.png')} />
+        <Image source={master_card} />
       </View>
       <View style={styles.transaction_card_info}>
         <Text style={styles.transaction_card_name}>Master Card</Text>

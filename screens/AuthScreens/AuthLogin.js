@@ -7,12 +7,21 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  Alert,
 } from 'react-native';
 import AppButton from '../../components/buttonComponents/AppButton';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
 import ToggleSwitch from 'toggle-switch-react-native';
 import {useNavigation} from '@react-navigation/native';
+import {signInWithEmailAndPassword} from 'firebase/auth';
+import {authentication} from '../../FirebaseConfig';
+import {useDispatch} from 'react-redux';
+import {
+  changeLoggedInStatus,
+  addUserInfo,
+} from '../../components/slices/appSlice';
+import {auth_login} from '../../components/images';
 
 const AuthLogin = () => {
   const navigation = useNavigation();
@@ -22,6 +31,8 @@ const AuthLogin = () => {
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [secureEntry, setSecureEntry] = useState(true);
+
+  const dispatch = useDispatch();
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -40,9 +51,28 @@ const AuthLogin = () => {
     if (!password) {
       setPasswordError('Password is required');
       return;
+    } else if (password.length < 6) {
+      setPasswordError('Password Length should be at least 6.');
+      return;
     }
 
-    navigation.navigate('TabApp');
+    if (!emailError && !passwordError) {
+      signInWithEmailAndPassword(authentication, email, password)
+        .then(userCredential => {
+          const {displayName, email, phoneNumber, uid} = userCredential.user;
+          dispatch(addUserInfo({displayName, email, phoneNumber, uid}));
+        })
+        .catch(error => {
+          if (error.code === 'auth/user-not-found') {
+            Alert.alert(
+              'Login Error',
+              'The email or password you entered is incorrect.',
+            );
+          }
+        });
+    }
+
+    // navigation.navigate('TabApp');
   };
 
   const isValidEmail = email => {
@@ -50,9 +80,7 @@ const AuthLogin = () => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../assets/auth-login.png')}
-      style={styles.bgImg}>
+    <ImageBackground source={auth_login} style={styles.bgImg}>
       <View style={styles.container}>
         <Text style={styles.welcomet_txt}>Welcome Back!</Text>
         <Text style={styles.description}>Sign in to your account</Text>

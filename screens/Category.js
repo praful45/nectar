@@ -1,14 +1,17 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import CategoryCard from '../components/homeComponents/CategoryCard';
 
-const Category = () => {
+const Category = ({route}) => {
+  const items = route.params.categoryData;
   return (
     <View style={styles.category_main}>
-      <CategoryCard />
-      <CategoryCard />
-      <CategoryCard />
-      <CategoryCard />
+      <FlatList
+        data={items}
+        renderItem={data => <CategoryCard item={data.item} />}
+        keyExtractor={items.id}
+        numColumns={3}
+      />
     </View>
   );
 };

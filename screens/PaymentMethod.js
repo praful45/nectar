@@ -5,11 +5,18 @@ import StepIndicatorCard from '../components/cards/StepIndicatorCard';
 import PaymentTypeCard from '../components/cards/PaymentTypeCard';
 import PaymentMethodForm from '../components/cards/PaymentMethodForm';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import {emptyCartItems} from '../components/slices/appSlice';
+import {credit_card} from '../components/images';
 
 const PaymentMethod = () => {
   const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
   const navigation = useNavigation();
+
+  const dispatch = useDispatch();
+
   const handlePress = () => {
+    dispatch(emptyCartItems());
     navigation.navigate('OrderSuccess');
   };
 
@@ -35,17 +42,16 @@ const PaymentMethod = () => {
             : styles.payment_method_wrapper
         }>
         <StepIndicatorCard pos={2} />
-        <ScrollView contentContainerStyle={styles.payment_method_scroll}>
+        <ScrollView
+          contentContainerStyle={styles.payment_method_scroll}
+          showsVerticalScrollIndicator={false}>
           <View style={styles.payment_options}>
             <PaymentTypeCard />
             <PaymentTypeCard />
             <PaymentTypeCard />
           </View>
           <View>
-            <Image
-              source={require('../assets/credit-card.png')}
-              style={styles.img}
-            />
+            <Image source={credit_card} style={styles.img} />
           </View>
           <PaymentMethodForm />
         </ScrollView>

@@ -1,15 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image} from 'react-native';
 import {Rating} from 'react-native-ratings';
+import {profile_pic} from '../images';
 
 const ReviewCard = () => {
   return (
     <View style={styles.review_card_wrapper}>
       <View style={styles.review_account_info}>
-        <Image
-          source={require('../../assets/profile_pic.png')}
-          style={styles.profile_img}
-        />
+        <Image source={profile_pic} style={styles.profile_img} />
         <View style={styles.user_name_time}>
           <Text style={styles.user_name}>John Doe</Text>
           <Text style={styles.user_time}>32 minutes ago </Text>

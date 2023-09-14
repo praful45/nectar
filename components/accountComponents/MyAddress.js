@@ -2,29 +2,19 @@ import React from 'react';
 import {View, StyleSheet, ScrollView} from 'react-native';
 import MyAddressCard from '../cards/MyAddressCard';
 import AppButton from '../buttonComponents/AppButton';
-import StepIndicator from '../stepIndicators/StepIndicator';
 
 const MyAddress = () => {
+  const pressHandler = () => {
+    console.log('save settings pressed');
+  };
   return (
     <View style={styles.my_address_wrapper}>
-      <StepIndicator
-        stepCount={5}
-        currentPosition={2}
-        indicatorSize={15}
-        unfinishedColor="gray"
-        currentColor="blue"
-        finishedColor="green"
-        finishedLineColor="green"
-        unfinishedLineColor="gray"
-        connectorWidth={1}
-        connectorHeight={10}
-      />
       <ScrollView contentContainerStyle={styles.my_address_scrollview}>
         <MyAddressCard />
         <MyAddressCard />
       </ScrollView>
       <View style={styles.btn}>
-        <AppButton btnText="Save Settings" />
+        <AppButton btnText="Save Settings" onPress={pressHandler} />
       </View>
     </View>
   );

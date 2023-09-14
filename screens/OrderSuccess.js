@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import {Text, View, StyleSheet, Pressable} from 'react-native';
 import AppButton from '../components/buttonComponents/AppButton';
 import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -19,6 +19,9 @@ const OrderSuccess = () => {
         <Text style={styles.order_success_desc}>
           You will get a response within a few minutes.
         </Text>
+        <Pressable onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.go_to_home}>Go to HOME</Text>
+        </Pressable>
       </View>
       <View style={styles.btn}>
         <AppButton onPress={handlePress} btnText="Track Order" />
@@ -59,6 +62,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 240,
     paddingTop: 200,
+  },
+  go_to_home: {
+    color: 'blue',
+    borderBottomWidth: 1,
+    borderBottomColor: 'blue',
   },
 });
 

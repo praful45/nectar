@@ -3,6 +3,7 @@ import PaymentMethodForm from '../cards/PaymentMethodForm';
 import {Image, ScrollView, StyleSheet, View} from 'react-native';
 import AppButton from '../buttonComponents/AppButton';
 import {useNavigation} from '@react-navigation/native';
+import {credit_card} from '../images';
 
 const AddCreditCard = () => {
   const navigation = useNavigation();
@@ -14,10 +15,7 @@ const AddCreditCard = () => {
       <View>
         <ScrollView contentContainerStyle={styles.payment_method_scroll}>
           <View>
-            <Image
-              source={require('../../assets/credit-card.png')}
-              style={styles.img}
-            />
+            <Image source={credit_card} style={styles.img} />
           </View>
           <PaymentMethodForm />
         </ScrollView>

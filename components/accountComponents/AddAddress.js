@@ -1,12 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, ScrollView, TextInput, View, Text} from 'react-native';
-import MaterialComIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Feather from 'react-native-vector-icons/Feather';
-import SimpleLineIcon from 'react-native-vector-icons/SimpleLineIcons';
-import FA5 from 'react-native-vector-icons/FontAwesome5';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import ToggleSwitch from 'toggle-switch-react-native';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import AppButton from '../buttonComponents/AppButton';
 import AddressField from '../addressComponets/AddressField';
 
