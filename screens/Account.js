@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Alert, Pressable, StyleSheet, Text, View} from 'react-native';
 import gStyles from '../components/globalStyles/globalStyles';
 import {Image} from 'react-native';
@@ -12,10 +12,18 @@ import {signOut} from 'firebase/auth';
 import {authentication} from '../FirebaseConfig';
 import {useAuth} from '../hooks/useAuth';
 import {profile} from '../components/images';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {addProfileImage, getProfileImage} from '../components/slices/appSlice';
 
 const Account = () => {
   const navigation = useNavigation();
+  const profileImage = useSelector(getProfileImage);
+  const dispatch = useDispatch();
+
   const {user} = useAuth();
+
+  const [image, setImage] = useState(profileImage);
 
   const handleSignOut = () => {
     Alert.alert('Sure?', 'Are you sure to signout', [
@@ -29,16 +37,32 @@ const Account = () => {
       },
     ]);
   };
+
+  const handleAddImage = () => {
+    ImageCropPicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(img => {
+      setImage(img.path);
+      dispatch(addProfileImage(img.path));
+    });
+  };
   return (
     <View style={[gStyles.background, styles.back]}>
       <View style={styles.top_section}>
         <View style={styles.profile_info}>
-          <Image
-            source={profile}
-            style={styles.profile}
-            width={20}
-            height={20}
-          />
+          <Pressable onPress={handleAddImage}>
+            <View>
+              <Image
+                source={{uri: image}}
+                style={styles.profile}
+                width={20}
+                height={20}
+              />
+            </View>
+          </Pressable>
+
           <Text style={[gStyles.textColor, styles.name]}>
             {user?.displayName || 'Olivia Justin'}
           </Text>

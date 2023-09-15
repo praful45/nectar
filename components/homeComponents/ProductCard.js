@@ -10,7 +10,7 @@ const ProductCard = ({item}) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const handlePress = () => {
-    dispatch(addToCart({name, price, quantity}));
+    dispatch(addToCart({name, price, quantity, photo}));
   };
   return (
     <View style={styles.card}>

@@ -39,13 +39,13 @@ const ProductDetail = ({route}) => {
   };
   const handleFavorite = () => {
     if (!isFavorite) {
-      dispatch(addToFavorite({name, price, quantity, selectQty}));
+      dispatch(addToFavorite({name, price, quantity, selectQty, photo}));
     }
     setIsFavorite(prev => !prev);
   };
 
   const handlePress = () => {
-    dispatch(addToCart({name, price, quantity, selectQty}));
+    dispatch(addToCart({name, price, quantity, selectQty, photo}));
     Alert.alert('Success', 'Successfully added to cart!');
   };
   return (
