@@ -6,11 +6,9 @@ import {decreaseSelectQty, increaseSelectQty} from '../slices/appSlice';
 
 const FavoriteCard = ({data}) => {
   const id = data.id;
-  console.log(data);
   const dispatch = useDispatch();
 
   const handleIncrease = () => {
-    console.log('hello');
     let incr = data.selectQty + 1;
     dispatch(increaseSelectQty({incr, id}));
   };
